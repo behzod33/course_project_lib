@@ -25,7 +25,7 @@ def create_tables(database_path='my.db', tables_sql_path='queries/create_tables.
 
     con.close()
 
-def load_data(database_path='my.db', source_folder='source'):
+def load_data_sql(database_path='my.db', source_folder='source'):
     """
     Загружает данные из CSV-файлов в папке источника в соответствующие таблицы базы данных.
 
@@ -84,7 +84,7 @@ if __name__ == '__main__':
     print("Таблицы успешно созданы.")
 
     print("Загрузка данных в таблицы...")
-    load_data()
+    load_data_sql()
     print("Данные успешно загружены.")
 
     print("Создание представлений...")
