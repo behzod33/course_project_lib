@@ -52,7 +52,7 @@ def load_data(database_path='my.db', source_folder='source'):
         if os.path.exists(file_path):
             df = pd.read_csv(file_path)
 
-            con.execute(f"delete FROM {table_name};")
+            con.execute(f"delete from {table_name};")
             con.execute(f"insert into {table_name} select * from df;")
             print(f"Данные загружены в таблицу '{table_name}' из файла '{file_name}'.")
             
