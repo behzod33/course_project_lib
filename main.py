@@ -80,14 +80,15 @@ def main():
     {where_clause}
     order by order_date desc
     '''
-    
-    st.write("Условия фильтрации:", conditions)
-    st.write("SQL-запрос для получения данных:", query_orders)
+    if st.checkbox('Показать/скрыть условые фильтрации'):    
+        st.write("Условия фильтрации:", conditions)
+        st.write("SQL-запрос для получения данных:", query_orders)
     
     orders_df = load_data(query_orders)
     
     st.subheader('Детали заказов')
-    st.dataframe(orders_df)
+    if st.checkbox('Показать/скрыть данные таблицы : orders_df'):
+        st.dataframe(orders_df)
     
     if not orders_df.empty:
         # Оконные функции и дополнительные метрики
@@ -129,16 +130,19 @@ def main():
         
         # График: Объем продаж по категориям
         sales_by_category = orders_df.groupby('category_name')['total_price'].sum().reset_index()
-        fig6 = px.bar(sales_by_category, x='category_name', y='total_price', title='Общий объем продаж по категориям')
+        fig6 = px.bar(sales_by_category, x='category_name', y='total_price', \
+                      title='Общий объем продаж по категориям', color_continuous_scale = ['lightblue', 'royalblue'])
         st.plotly_chart(fig6, use_container_width=True)
 
         # Таблица рангов продуктов
-        st.subheader("Ранг продуктов по объему продаж")
-        st.write(orders_df[['product_name', 'product_sales_rank']].drop_duplicates().sort_values(by='product_sales_rank'))
+        if st.checkbox('Показать/скрыть ранг продуктов по объему продаж'):    
+            st.subheader("Ранг продуктов по объему продаж")
+            st.write(orders_df[['product_name', 'product_sales_rank']].drop_duplicates().sort_values(by='product_sales_rank'))
 
         # Таблица рангов магазинов
-        st.subheader("Ранг магазинов по объему продаж")
-        st.write(orders_df[['store_name', 'store_sales_rank']].drop_duplicates().sort_values(by='store_sales_rank'))
+        if st.checkbox('Показать/скрыть ранг магазинов по объему продаж'):    
+            st.subheader("Ранг магазинов по объему продаж")
+            st.write(orders_df[['store_name', 'store_sales_rank']].drop_duplicates().sort_values(by='store_sales_rank'))
 
     else:
         st.write('Нет данных для отображения с выбранными фильтрами.')
